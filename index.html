@@ -153,15 +153,21 @@
 		bullshit.appendChild(node);
 	}
 
-	var words = Array.prototype.slice.call(document.querySelectorAll("#bullshit div.unselected"));
+	var words = Array.prototype.slice.call(document.querySelectorAll("#bullshit div"));
 	for (var div in words) {
         words[div].addEventListener('click', function(event){
         	var element = this.textContent;
-        	items[element] = true;
-        	this.classList.remove('unselected');
-        	this.classList.add('selected');
+        	if (this.classList.contains('unselected')) {
+				items[element] = true;
+				this.classList.remove('unselected');
+				this.classList.add('selected');
+			} else {
+				items[element] = false;
+				this.classList.add('unselected');
+				this.classList.remove('selected');
+			}
 			localStorage.setItem("keywords", JSON.stringify(items));
-        })
+		})
     }
 </script>
 <!-- page content -->
