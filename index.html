@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>title</title>
+    <style type="text/css">
+        body{
+            background-color:#ddd;
+            font-family: Arial, Verdana, Sans-Serif;
+        }
+        #bullshit{
+            column-count: 3;
+            -moz-column-count: 3;
+            -webkit-column-count: 3;
+            -webkit-column-gap:0;
+            -moz-column-gap:0;
+            column-gap:0;
+        }
+        #bullshit div{
+            border: 1px black solid;
+            padding: 0 4px;
+            height: 50px;
+            text-align:center;
+            background-color:white;
+        }
+        #bullshit div.selected{
+            background-color:grey;
+        }
+    </style>
+</head>
+<body>
+<div id="container">
+    <h2>Bingo Bullshit</h2>
+    <p><em>Attention, ne pas utiliser de navigation privée.</em></p>
+    <div id="bullshit">
+
+    </div>
+</div>
+<script type="text/javascript">
+	var items = localStorage.getItem("keywords");
+	if (items === null) {
+		var keywords = [
+			"valeurs",
+			"talents",
+			"atouts",
+			"convergence",
+			"mutation (des médias)",
+			"croisière",
+			"savoir-faire",
+			"nouveaux métiers",
+			"leader",
+			"print",
+			"coloriage",
+			"marketing direct",
+			"B2B",
+			"alchimie",
+			"confiance",
+			"décrypter",
+			"challenge",
+			"abonnés",
+			"art de vivre",
+			"convictions",
+			"360 (degrés)",
+			"part de voix",
+			"succès",
+			"génération Y",
+			"big bang",
+			"puissance",
+			"enjeux",
+			"synergie",
+			"audience",
+			"Google",
+			"Facebook",
+			"Open Data",
+			"journalisme de qualité",
+			"viral",
+			"délivrabilité",
+			"monétisation",
+			"agilité",
+			"Ad Exchange",
+			"déontologie",
+			"visibilité",
+			"premium",
+			"optimisation",
+			"Appnexus",
+			"mobile",
+			"vidéo",
+			"digital",
+			"Melty",
+			"communauté",
+			"télévision",
+			"premier groupe média",
+			"programmatique",
+			"croissance verticale",
+			"réorganisation",
+			"déménagement",
+			"Médiamétrie",
+			"ligne éditoriale",
+			"défi",
+			"diversification des revenus",
+			"formation",
+			"SEO",
+			"Webedia",
+			"diffusion payée",
+			"concentration (des médias)",
+			"écosystème",
+			"couverture",
+			"impact",
+			"environnement éditorial",
+			"écrin (de qualité)",
+			"Ad Block",
+			"micro-­entrepreneurs",
+			"(grande) famille",
+			"(génération de) leads",
+			"e-mailing",
+			"réseaux sociaux",
+			"stagiaires",
+            "baby-foot"
+		];
+		for(var position=keywords.length-1; position>=1; position--){
+
+			//hasard reçoit un nombre entier aléatoire entre 0 et position
+			var hasard=Math.floor(Math.random()*(position+1));
+
+			//Echange
+			var sauve=keywords[position];
+			keywords[position]=keywords[hasard];
+			keywords[hasard]=sauve;
+		}
+		keywords = keywords.slice(0, 9);
+		var items = {};
+		for(var keyword in keywords) {
+			items[keywords[keyword]] = false;
+		}
+
+		localStorage.setItem("keywords", JSON.stringify(items));
+	} else {
+		items = JSON.parse(items);
+	}
+
+	var bullshit = document.querySelector('#bullshit');
+	var baseNode = document.createElement('div');
+	for(var item in items) {
+		var node = baseNode.cloneNode();
+		if (items[item] === true) {
+			// Déja sélectionnée
+            node.classList.add("selected");
+		} else {
+			node.classList.add("unselected");
+        }
+		node.textContent = item;
+		bullshit.appendChild(node);
+	}
+
+	var words = Array.prototype.slice.call(document.querySelectorAll("#bullshit div.unselected"));
+	for (var div in words) {
+        words[div].addEventListener('click', function(event){
+        	var element = this.textContent;
+        	items[element] = true;
+        	this.classList.remove('unselected');
+        	this.classList.add('selected');
+			localStorage.setItem("keywords", JSON.stringify(items));
+        })
+    }
+</script>
+<!-- page content -->
+</body>
+</html>
